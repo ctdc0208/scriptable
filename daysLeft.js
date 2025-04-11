@@ -6,28 +6,6 @@
 
 const BG_COLOR = "#223433";
 
-const widget = new ListWidget();
-widget.backgroundColor = new Color("#000000");
-// These are optimized for iPhone 15 Pro. You may need to adjust for different devices.
-// Increase values for larger screens, decrease for smaller screens.
-const PADDING = 8;           // Space around the edges of the widget
-const CIRCLE_SIZE = 6;       // Size of the progress dots
-const CIRCLE_SPACING = 4;    // Space between dots
-const TEXT_SPACING = 8;      // Space between dot grid and text
-const DOT_SHIFT_LEFT = 2;
-const YEAR_OFFSET = DOT_SHIFT_LEFT - 2;
-const DAYS_LEFT_OFFSET = 0;
-
-const WIDGET_WIDTH = 320;
-const AVAILABLE_WIDTH = WIDGET_WIDTH - (2 * PADDING);
-const TOTAL_CIRCLE_WIDTH = CIRCLE_SIZE + CIRCLE_SPACING;
-const COLUMNS = Math.floor(AVAILABLE_WIDTH / TOTAL_CIRCLE_WIDTH);
-const ROWS = Math.ceil(DAYS_TOTAL / COLUMNS);
-
-const COLOR_FILLED = new Color("#ffffff");
-const COLOR_UNFILLED = new Color("#ffffff", 0.4);
-const COLOR_CURRENT_DAY = COLOR_FILLED;
-
 const NOW = new Date();
 const CURRENT_YEAR = NOW.getFullYear();
 const START_OF_YEAR = new Date(CURRENT_YEAR, 0, 1);
@@ -35,7 +13,25 @@ const DAY_OF_YEAR = Math.floor((NOW - START_OF_YEAR) / 86400000) + 1;
 const IS_LEAP_YEAR = CURRENT_YEAR % 4 === 0 && (CURRENT_YEAR % 100 !== 0 || CURRENT_YEAR % 400 === 0);
 const DAYS_IN_YEAR = IS_LEAP_YEAR ? 366 : 365;
 
-widget.setPadding(12, PADDING, 12, PADDING);
+const widget = new ListWidget();
+widget.backgroundColor = BG_COLOR;
+
+const PADDING_TOP_BOTTOM = 36;
+const PADDING_LEFT_RIGHT = 26;
+const CIRCLE_SIZE = 5;
+const CIRCLE_SPACING = 9;
+const TEXT_SPACING = 20;
+const WIDGET_SIZE = 360;
+const AVAILABLE_SPACE = WIDGET_SIZE - (2 * PADDING_LEFT_RIGHT);
+const TOTAL_CIRCLE_SIZE = CIRCLE_SIZE + CIRCLE_SPACING;
+const COLUMNS = Math.floor(AVAILABLE_SPACE / TOTAL_CIRCLE_SIZE);
+const ROWS = Math.ceil(DAYS_IN_YEAR / COLUMNS);
+
+const COLOR_FILLED = new Color("#ffffff");
+const COLOR_UNFILLED = new Color("#ffffff", 0.4);
+const COLOR_CURRENT_DAY = COLOR_FILLED;
+
+widget.setPadding(PADDING_TOP_BOTTOM, PADDING_LEFT_RIGHT, PADDING_TOP_BOTTOM, PADDING_LEFT_RIGHT);
 
 const gridStack = widget.addStack();
 gridStack.layoutVertically();
@@ -88,5 +84,3 @@ if (config.runsInWidget) {
   widget.presentLarge();
 }
 Script.complete();
-
-//
